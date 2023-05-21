@@ -1,4 +1,5 @@
-from math import sin, cos
+import math
+from math import sin, cos, sqrt
 
 
 class R3:
@@ -25,6 +26,19 @@ class R3:
         return R3(
             cos(fi) * self.x - sin(fi) * self.y,
             sin(fi) * self.x + cos(fi) * self.y, self.z)
+
+    # Вычисление длины ребра
+    def dist(self, other):
+        return sqrt((other.x - self.x)**2 + (other.y - self.y)**2 + (other.z - self.z)**2)
+
+    # Проверка условий
+    def middle(self, other):
+        if (abs(other.y-self.y)/self.dist(other)) < cos(math.pi/18) and \
+                    (((other.x - self.x)/2)**2 + ((other.y - self.y)/2)**2 +
+                 ((other.z - self.z)/2)**2 < 4):
+            return 1
+        else:
+            return 0
 
     # Поворот вокруг оси Oy
     def ry(self, fi):

@@ -123,10 +123,10 @@ class Polyedr:
     V = R3(0.0, 0.0, 1.0)
 
     # Параметры конструктора: файл, задающий полиэдр
-    def __init__(self, file):
-
+    def __init__(self, file, j=0):
+        self.P = 0
         # списки вершин, рёбер и граней полиэдра
-        self.vertexes, self.edges, self.facets = [], [], []
+        self.vertexes, self.edges, self.edgesv, self.facets = [], [], [], []
 
         # список строк файла
         with open(file) as f:
@@ -138,6 +138,8 @@ class Polyedr:
                     c = float(buf.pop(0))
                     # углы Эйлера, определяющие вращение
                     alpha, beta, gamma = (float(x) * pi / 180.0 for x in buf)
+                    if j == 1:
+                        alpha, beta, gamma = 0.0, 0.0, 0.0
                 elif i == 1:
                     # во второй строке число вершин, граней и рёбер полиэдра
                     nv, nf, ne = (int(x) for x in line.split())
@@ -160,10 +162,22 @@ class Polyedr:
                     self.facets.append(Facet(vertexes))
 
     # Метод изображения полиэдра
-    def draw(self, tk):
-        tk.clean()
-        for e in self.edges:
-            for f in self.facets:
-                e.shadow(f)
-            for s in e.gaps:
-                tk.draw_line(e.r3(s.beg), e.r3(s.fin))
+    def draw(self, tk, j=0):
+        if j == 0:
+            tk.clean()
+            for e in self.edges:
+                for f in self.facets:
+                    e.shadow(f)
+                for s in e.gaps:
+                    tk.draw_line(e.r3(s.beg), e.r3(s.fin))
+        if j == 1:
+            for e in self.edges:
+                for f in self.facets:
+                    e.shadow(f)
+            for e in self.edges:
+                for s in e.gaps:
+                    if len(e.gaps) == 1 and (e.gaps[0].beg == 0.0) and \
+                            (e.gaps[0].fin == 1.0) and \
+                            (R3.middle(e.r3(s.beg), e.r3(s.fin)) == 1):
+                        self.edgesv.append(R3.dist(e.r3(s.beg), e.r3(s.fin)))
+            print(sum(self.edgesv))
