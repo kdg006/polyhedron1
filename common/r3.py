@@ -29,7 +29,8 @@ class R3:
 
     # Вычисление длины ребра
     def dist(self, other):
-        return sqrt((other.x - self.x)**2 + (other.y - self.y)**2 + (other.z - self.z)**2)
+        return sqrt((other.x - self.x)**2 + (other.y - self.y)**2 + 
+                    (other.z - self.z)**2)
 
     # Проверка условий
     def middle(self, other):
