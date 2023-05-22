@@ -1,4 +1,4 @@
-from math import pi
+from math import pi, cos
 from functools import reduce
 from operator import add
 from common.r3 import R3
@@ -124,7 +124,6 @@ class Polyedr:
 
     # Параметры конструктора: файл, задающий полиэдр
     def __init__(self, file, j=0):
-        self.P = 0
         # списки вершин, рёбер и граней полиэдра
         self.vertexes, self.edges, self.edgesv, self.facets = [], [], [], []
 
@@ -136,6 +135,7 @@ class Polyedr:
                     buf = line.split()
                     # коэффициент гомотетии
                     c = float(buf.pop(0))
+                    self.c = c
                     # углы Эйлера, определяющие вращение
                     alpha, beta, gamma = (float(x) * pi / 180.0 for x in buf)
                     if j == 1:
@@ -171,13 +171,21 @@ class Polyedr:
                 for s in e.gaps:
                     tk.draw_line(e.r3(s.beg), e.r3(s.fin))
         if j == 1:
+            a = []
             for e in self.edges:
                 for f in self.facets:
                     e.shadow(f)
             for e in self.edges:
                 for s in e.gaps:
-                    if len(e.gaps) == 1 and (e.gaps[0].beg == 0.0) and \
-                            (e.gaps[0].fin == 1.0) and \
-                            (R3.middle(e.r3(s.beg), e.r3(s.fin)) == 1):
-                        self.edgesv.append(R3.dist(e.r3(s.beg), e.r3(s.fin)))
-            print(sum(self.edgesv))
+                    print(R3.dist(e.r3(s.beg), e.r3(s.fin))/self.c)
+                    if R3.double(e.r3(s.beg), e.r3(s.fin)) not in a and R3.double(e.r3(s.fin), e.r3(s.beg)) not in a:
+                        a.append(R3.double(e.r3(s.beg), e.r3(s.fin)))
+                        if len(e.gaps) == 1 and (e.gaps[0].beg == 0.0) and \
+                                (e.gaps[0].fin == 1.0) and \
+                                (R3.middle(e.r3(s.beg), e.r3(s.fin))/self.c/self.c < 4) and \
+                                (R3.grad(e.r3(s.beg), e.r3(s.fin))/self.c < cos(pi/18)):
+                            self.edgesv.append(R3.dist(e.r3(s.beg), e.r3(s.fin))/self.c)
+                    else:
+                        pass
+            self.sum = sum(self.edgesv)
+            print(f"Сумма необходимых рёбер = {self.sum}")
