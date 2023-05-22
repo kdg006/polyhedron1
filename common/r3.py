@@ -33,12 +33,16 @@ class R3:
 
     # Проверка условий
     def middle(self, other):
-        if (abs(other.y-self.y)/self.dist(other)) < cos(math.pi/18) and \
-                    (((other.x - self.x)/2)**2 + ((other.y - self.y)/2)**2 +
-                 ((other.z - self.z)/2)**2 < 4):
-            return 1
-        else:
-            return 0
+        return ((other.x - self.x)/2)**2 + ((other.y - self.y)/2)**2 + \
+                 ((other.z - self.z)/2)**2
+
+    # Угол между вертикалью и ребром
+    def grad(self, other):
+        return abs(other.y-self.y)/(self.dist(other))
+
+    # Создание массива с вершинами рёбер для удаления одинаковых
+    def double(self, other):
+        return [other.x, self.x, other.y, self.y, other.z, self.z]
 
     # Поворот вокруг оси Oy
     def ry(self, fi):
