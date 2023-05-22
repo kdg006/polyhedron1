@@ -181,7 +181,7 @@ class Polyedr:
                     if R3.double(e.r3(s.beg), e.r3(s.fin)) not in a \
                        and R3.double(e.r3(s.fin), e.r3(s.beg)) not in a:
                        a.append(R3.double(e.r3(s.beg), e.r3(s.fin)))
-                            if len(e.gaps) == 1 and (e.gaps[0].beg == 0.0) \
+                        if len(e.gaps) == 1 and (e.gaps[0].beg == 0.0) \
                                     and (e.gaps[0].fin == 1.0) and \
                                     (R3.middle(e.r3(s.beg),
                                              e.r3(s.fin))/self.c/self.c < 4) \
