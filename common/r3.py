@@ -29,17 +29,16 @@ class R3:
 
     # Вычисление длины ребра
     def dist(self, other):
-        return sqrt((other.x - self.x)**2 + (other.y - self.y)**2 +
-                    (other.z - self.z)**2)
+        return sqrt((other.x - self.x)**2 + (other.y - self.y)**2 + (other.z - self.z)**2)
 
     # Проверка условий
     def middle(self, other):
-        return ((other.x - self.x)/2)**2 + ((other.y - self.y)/2)**2 + \
-                 ((other.z - self.z)/2)**2
+        return ((other.x + self.x)/2)**2 + ((other.y + self.y)/2)**2 + \
+                 ((other.z + self.z)/2)**2
 
     # Угол между вертикалью и ребром
     def grad(self, other):
-        return abs(other.y-self.y)/(self.dist(other))
+        return abs(other.z-self.z)/(self.dist(other))
 
     # Создание массива с вершинами рёбер для удаления одинаковых
     def double(self, other):
