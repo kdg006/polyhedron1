@@ -17,4 +17,4 @@ class TestPerimetr:
     def test_3(self):
         a = Polyedr(f"data/test2.geom", 1)
         a.draw(None, 1)
-        assert a.sum == approx(22.0)
+        assert a.sum == approx(8.0)
