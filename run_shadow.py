@@ -4,7 +4,6 @@ from time import time
 from common.tk_drawer import TkDrawer
 from shadow.polyedr import Polyedr
 
-
 tk = TkDrawer()
 try:
     for name in ["test0", "test1", "test2"]:
@@ -16,6 +15,6 @@ try:
         delta_time = time() - start_time
         print(f"Изображение полиэдра '{name}' заняло {delta_time} сек.")
         input("Hit 'Return' to continue -> ")
-except(EOFError, KeyboardInterrupt):
+except (EOFError, KeyboardInterrupt):
     print("\nStop")
     tk.close()
